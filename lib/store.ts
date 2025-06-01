@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 
+//難易度の保存
 export const useGameStore = create((set) => ({
-  score: 0,
-  setScore: (s: number) => set({ score: s }),
+    difficulty: 'easy',
+  setDifficulty: (d) => set({ difficulty: d }),
 }));

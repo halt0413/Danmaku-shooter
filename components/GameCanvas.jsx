@@ -21,19 +21,19 @@ export default function GameCanvas() {
     const game = new Phaser.Game(config);
 
     function preload() {
-      // アセット読み込み（例：画像など）
+      // アセット読み込み
     }
 
     function create() {
-      // ゲーム初期化処理（例：背景、プレイヤー配置）
+      // ゲーム初期化処理
       this.add.text(100, 100, '弾幕避けゲーム', { fontSize: '32px', color: '#fff' });
     }
 
     function update() {
-      // 毎フレームの処理（弾の移動など）
+      // 毎フレームの処理
     }
 
-    // クリーンアップ（コンポーネントがアンマウントされたとき）
+    // クリーンアップ
     return () => {
       game.destroy(true);
     };
