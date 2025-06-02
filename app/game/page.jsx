@@ -1,14 +1,12 @@
 'use client';
 
-import { useGameStore } from '../../lib/store';
+import GameCanvas from '../../components/ui/GameCanvas';
 
 export default function GamePage() {
-  const difficulty = useGameStore((state) => state.difficulty);
-
   return (
-    <div style={{ textAlign: 'center', paddingTop: '100px' }}>
-      <h2>ゲーム画面（仮）</h2>
-      <p>選んだ難易度: {difficulty}</p>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#fff'}}>
+      <GameCanvas />
     </div>
   );
 }
+

@@ -6,19 +6,19 @@ import { useGameStore } from '../../lib/store';
 
 export default function StartScreen() {
 
-  // ページ遷移
+  //ページ遷移
   const router = useRouter();
 
-   // Zustandで難易度を保存
+   //Zustandで難易度を保存
   const setDifficulty = useGameStore((state) => state.setDifficulty);
 
-  // ローカル状態で選択中の難易度を管理
+  //ローカル状態で選択中の難易度を管理
   const [selected, setSelected] = useState('easy');
 
   //スタートボタン押した時の処理
   const startGame = () => {
-    setDifficulty(selected);// グローバルに難易度を保存
-    router.push('/game'); // ゲーム画面に遷移
+    setDifficulty(selected);//グローバルに難易度を保存
+    router.push('/game'); //ゲーム画面に遷移
   };
 
   return (
