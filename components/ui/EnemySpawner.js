@@ -30,25 +30,15 @@ export function createEnemy(scene, x, y) {
 export function initEnemySpawner(scene) {
   scene.enemies = scene.physics.add.group();
 
-  
-  // 敵を1秒ごとに生成するタイマーを設定
-  scene.time.addEvent({
-    delay: 1000,
-    loop: true,
-    callback: () => {
-      if (scene.isGameOver) return;//ゲームオーバーなら敵生成しない
-
-      const x = Phaser.Math.Between(50, 750);//X座標をランダムに決定
-      const enemy = createEnemy(scene, x, 0);//敵を生成
-      scene.enemies.add(enemy);              //グループに追加
-
       //プレイヤーと敵が重なったときの処理
-      scene.physics.add.overlap(scene.player, enemy, () => {
+      scene.physics.add.overlap(scene.player, scene.enemies, () => {
         if (scene.isGameOver) return;//多重実行防止
 
         scene.isGameOver = true;
 
+        if (scene.enemySpawnTimer){
         scene.enemySpawnTimer.remove();//ゲームオーバーフラグを立てる
+        }
 
         scene.physics.pause();//すべての物理処理を停止
         scene.player.setTint(0xff0000);//やられたとき赤になる 
@@ -59,6 +49,17 @@ export function initEnemySpawner(scene) {
           color: '#ff0000',
         });
       });
-    },
-  });
-}
+
+        // 敵を1秒ごとに生成するタイマーを設定
+      scene.enemySpawnTimer = scene.time.addEvent({
+        delay: 1000,
+        loop: true,
+        callback: () => {
+          if (scene.isGameOver) return;//ゲームオーバーなら敵生成しない
+
+        const x = Phaser.Math.Between(50, 750);//X座標をランダムに決定
+        const enemy = createEnemy(scene, x, 0);//敵を生成
+        scene.enemies.add(enemy);              //グループに追加
+      },
+    });
+  }

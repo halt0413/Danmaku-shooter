@@ -1,7 +1,7 @@
 
 // プレイヤーの移動処理を行う関数
 // 毎フレーム呼び出され、入力に応じてプレイヤーの速度を更新
-export function handlePlayerMovement(player, cursors, keys) {
+export function handlePlayerMovement(scene, player, cursors, keys) {
   const speed = 200;//プレイヤーの移動速度
 
   player.setVelocity(0); //毎フレーム速度リセット

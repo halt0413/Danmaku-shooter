@@ -45,7 +45,7 @@ create() {
     this.physics.pause();
     this.player.setTint(0xff0000);
 
-    this.add.text(250, 250, 'GAME OVER', {
+    this.add.text(250, 250, 'げーむおーばー', {
       fontSize: '48px',
       color: '#ff0000',
       fontFamily: 'Arial',
