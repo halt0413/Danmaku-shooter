@@ -4,16 +4,34 @@ import { initEnemySpawner } from './EnemySpawner';
 
 export default class PlayerScene extends Phaser.Scene {
   constructor() {
-    super({ key: 'PlayerScene' }); // シーンの識別キーを設定
+    super({ key: 'PlayerScene' }); 
   }
 
   preload() {
-    // アセットは動的に生成するため読み込みは不要
+    //不要
   }
 
   create() {
+    this.isGameOver = false;
+
+    // スコア表示とタイマー
+    this.score = 0;
+    this.scoreText = this.add.text(10, 10, 'スコア: 0', {
+      fontSize: '24px',
+      color: '#ffffff',
+    });
+
+    this.scoreTimer = this.time.addEvent({
+      delay: 1000,
+      loop: true,
+      callback: () => {
+        if (this.isGameOver) return;
+        this.score += 10;
+        this.scoreText.setText(`スコア: ${this.score}`);
+      }
+    });
     console.log('Game Over!');
-    this.isGameOver = false; // ゲームオーバーフラグの初期化
+    this.isGameOver = false; 
 
     // プレイヤー用のテクスチャ作成
     const graphics = this.add.graphics();
@@ -24,9 +42,9 @@ export default class PlayerScene extends Phaser.Scene {
 
     // プレイヤーの生成
     this.player = this.physics.add.sprite(400, 300, 'playerCircle');
-    this.player.setCollideWorldBounds(true); // 画面外に出ないよう制限
+    this.player.setCollideWorldBounds(true); 
 
-    // キーボード操作の設定（矢印キー + WASD）
+    // キーボード
     this.cursors = this.input.keyboard.createCursorKeys();
     this.keys = this.input.keyboard.addKeys({
       up: 'W',
@@ -54,14 +72,15 @@ export default class PlayerScene extends Phaser.Scene {
       if (this.isGameOver) return;
 
       this.isGameOver = true;
-      this.enemySpawnTimer?.remove(); // 敵生成停止
-      this.physics.pause(); // ゲーム停止
-      this.player.setTint(0xff0000); // プレイヤーを赤に
+      this.scoreTimer?.remove();
+      this.enemySpawnTimer?.remove(); 
+      this.physics.pause(); 
+      this.player.setTint(0xff0000); 
 
       const centerX = this.scale.width / 2;
       const centerY = this.scale.height / 2;
 
-      // ゲームオーバー表示
+      // げーむおーばー表示
       this.add.text(centerX, centerY - 60, 'げーむおーばー', {
         fontSize: '48px',
         color: '#ff0000',
@@ -87,10 +106,9 @@ export default class PlayerScene extends Phaser.Scene {
       homeText.on('pointerdown', () => window.location.href = '/');
     });
 
-    // 敵のスポーン処理の初期化
     initEnemySpawner(this);
 
-    // プレイヤーと敵の接触でゲームオーバー
+    // プレイヤーと敵の接触でげーむおーばー
     this.physics.add.overlap(this.player, this.enemies, () => {
       if (this.isGameOver) return;
 
@@ -101,10 +119,10 @@ export default class PlayerScene extends Phaser.Scene {
     }, null, this);
   }
 
+
   update() {
     if (this.isGameOver) return;
 
-    // プレイヤーの移動処理
     handlePlayerMovement(this, this.player, this.cursors, this.keys);
 
     // 敵の更新と画面外削除
